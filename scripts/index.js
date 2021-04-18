@@ -11,6 +11,9 @@ let profileSub = document.querySelector('.profile__subtitle');
 let inputProfileName = document.querySelector('.input__profilename');
 let inputProfileSub = document.querySelector('.input__profilesub');
 
+inputProfileName.value = profileName.innerText;
+inputProfileSub.value = profileSub.innerText;
+
 openPopupButton.addEventListener('click', function () {
   inputProfileName.value = profileName.innerText;
   inputProfileSub.value = profileSub.innerText;
@@ -27,6 +30,14 @@ savePopupButton.addEventListener('click', function() {
   profileSub.innerText = inputProfileSub.value;
 
   popup.classList.toggle('popup_opened');
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.keyCode === 13) {
+  profileName.innerText = inputProfileName.value;
+  profileSub.innerText = inputProfileSub.value;
+
+  popup.classList.remove('popup_opened');}
 });
 
 for (let i = 0; i < likeButton.length; i++) {
