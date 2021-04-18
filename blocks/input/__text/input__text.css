@@ -1,0 +1,16 @@
+.input__text {
+  border: none;
+  width: 358px;
+  height: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  transition: 1s linear;
+}
+
+@media screen and (max-width: 520px) {
+  .input__text {
+    width: 238px;
+  }
+}
