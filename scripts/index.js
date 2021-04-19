@@ -1,9 +1,7 @@
 const openPopupButton = document.querySelector('.profile__edit-btn');
 const closePopupButton = document.querySelector('.form__close-btn');
-const savePopupButton = document.querySelector('.form__submit-btn')
+const saveFormButton = document.querySelector('.form__submit-btn')
 const popup = document.querySelector('.popup');
-
-const likeButton = document.querySelectorAll('.place__like-btn');
 
 let profileName = document.querySelector('.profile__title');
 let profileSub = document.querySelector('.profile__subtitle');
@@ -11,37 +9,26 @@ let profileSub = document.querySelector('.profile__subtitle');
 let inputProfileName = document.querySelector('.input__profilename');
 let inputProfileSub = document.querySelector('.input__profilesub');
 
-inputProfileName.value = profileName.innerText;
-inputProfileSub.value = profileSub.innerText;
+function openPopup () {
+  inputProfileName.value = profileName.textContent;
+  inputProfileSub.value = profileSub.textContent;
+  
+  popup.classList.add('popup_opened');
+};
 
-openPopupButton.addEventListener('click', function () {
-  inputProfileName.value = profileName.innerText;
-  inputProfileSub.value = profileSub.innerText;
+function closePopup () {
+  popup.classList.remove('popup_opened');
+};
 
-  popup.classList.toggle('popup_opened');
-});
+function saveForm () {
+  profileName.textContent = inputProfileName.value;
+  profileSub.textContent = inputProfileSub.value;
 
-closePopupButton.addEventListener('click', function () {
-  popup.classList.toggle('popup_opened');
-});
+  popup.classList.remove('popup_opened');
+};
 
-savePopupButton.addEventListener('click', function() {
-  profileName.innerText = inputProfileName.value;
-  profileSub.innerText = inputProfileSub.value;
+openPopupButton.addEventListener('click', openPopup);
 
-  popup.classList.toggle('popup_opened');
-});
+closePopupButton.addEventListener('click', closePopup);
 
-document.addEventListener('keydown', function(e) {
-  if (e.keyCode === 13) {
-  profileName.innerText = inputProfileName.value;
-  profileSub.innerText = inputProfileSub.value;
-
-  popup.classList.remove('popup_opened');}
-});
-
-for (let i = 0; i < likeButton.length; i++) {
-  likeButton[i].addEventListener('click', function() {
-    likeButton[i].classList.toggle('place__like-btn_active');
-  });
-}
+saveFormButton.addEventListener('click', saveForm);
