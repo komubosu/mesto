@@ -3,7 +3,7 @@
   height: 50px;
   width: 150px;
   border: 2px solid #fff;
-  background: #000000 center no-repeat url(../../../images/profile__button_add.svg);
+  background: center no-repeat url(../../../images/profile__button_add.svg);
   margin: 35px 0 35px auto;
   cursor: pointer;
   transition: opacity .2s linear;

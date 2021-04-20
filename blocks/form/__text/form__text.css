@@ -1,4 +1,4 @@
-.input__text {
+.form__text {
   border: none;
   width: 358px;
   height: 24px;
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 520px) {
-  .input__text {
+  .form__text {
     width: 238px;
   }
 }
