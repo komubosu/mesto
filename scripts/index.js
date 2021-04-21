@@ -26,7 +26,7 @@ function saveForm (e) {
   profileName.textContent = inputProfileName.value;
   profileSub.textContent = inputProfileSub.value;
 
-  popup.classList.remove('popup_opened');
+  closePopup();
 };
 
 openPopupButton.addEventListener('click', openPopup);
