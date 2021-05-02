@@ -24,48 +24,6 @@
     </section>
 
     <section class="places">
-      <div class="place">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Карачаевск</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
-      <div class="place">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Гора Эльбрус</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
-      <div class="place">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Домбай</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
-      <div class="place">
-        <img src="./images/kirill-pershin-1404681-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Гора Эльбрус</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
-      <div class="place">
-        <img src="./images/kirill-pershin-1556355-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Домбай</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
-      <div class="place">
-        <img src="./images/kirill-pershin-1088404-unsplash.png" alt="Публикация пользователя" class="place__image">
-        <div class="place__info">
-          <h2 class="place__title">Карачаево-Черкессия</h2>
-          <button class="place__like-btn" type="button"></button>
-        </div>
-      </div>
     </section>
   </main>
 
@@ -73,7 +31,7 @@
     <p class="footer__copyright">© 2021 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div id="editPopup" class="popup">
     <div class="popup__container">
       <form class="form" name="profileEdit">
         <h2 class="form__title">Редактировать профиль</h2>
@@ -85,7 +43,41 @@
       </form>
       <button name="closePopupButton" type="button" class="popup__close-btn"></button>
     </div>
-    <script src="./scripts/index.js"></script>
   </div>
+
+  <div id="addPopup" class="popup">
+    <div class="popup__container">
+      <form class="form" name="addNewPlace">
+        <h2 class="form__title">Новое место</h2>
+        <div class="form__input">
+          <input placeholder="Название" type="text" value="" name="inputPlaceName" class="form__text">
+          <input placeholder="Ссылка на картинку" type="text" value="" name="inputPlaceLink" class="form__text">
+        </div>
+        <button name="saveFormButton" type="submit" class="form__submit-btn">Сохранить</button>
+      </form>
+      <button name="closePopupButton" type="button" class="popup__close-btn"></button>
+    </div>
+  </div>
+
+  <div id="imgPopup" class="popup">
+    <div class="popup__container">
+      <img class="popup__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg">
+      <p class="popup__subtitle">Байкал</p>
+      <button name="closePopupButton" type="button" class="popup__close-btn"></button>
+    </div>
+  </div>
+
+  <template id="place-template">
+    <div class="place">
+      <button class="place__del-btn" type="button"></button>
+      <img src="" alt="Публикация пользователя" class="place__image">
+      <div class="place__info">
+        <h2 class="place__title"></h2>
+        <button class="place__like-btn" type="button"></button>
+      </div>
+    </div>
+  </template>
+
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
