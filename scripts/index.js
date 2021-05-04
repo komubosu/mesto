@@ -10,16 +10,19 @@ const placeContainer = document.querySelector('.places');
 const imgPopup = document.querySelector('#imgPopup');
 const closeImgPopupButton = imgPopup.querySelector('.popup__close-btn');
 
-let profileName = document.querySelector('.profile__title');
-let profileSub = document.querySelector('.profile__subtitle');
+const profileName = document.querySelector('.profile__title');
+const profileSub = document.querySelector('.profile__subtitle');
 
 const profileEdit = document.profileEdit;
-let inputProfileName = profileEdit.inputProfileName;
-let inputProfileSub = profileEdit.inputProfileSub;
+const inputProfileName = profileEdit.inputProfileName;
+const inputProfileSub = profileEdit.inputProfileSub;
 
 const addNewPlace = document.addNewPlace;
 const inputPlaceName = addNewPlace.inputPlaceName;
 const inputPlaceLink = addNewPlace.inputPlaceLink;
+
+const popupImage = document.querySelector('.popup__image');
+const popupSubtitle = document.querySelector('.popup__subtitle');
 
 const initialCards = [
   {
@@ -51,44 +54,45 @@ initialCards.forEach(addPlace);
 
 function addPlace(item) {
   placeContainer.prepend(createNewCard(item));
-  findLikeButton();
-  findDeleteButton();
-  findImgButton(item);
 };
 
 function createNewCard(item) {
   const placeTemplate = document.querySelector('#place-template').content;
   const placeElement = placeTemplate.querySelector('.place').cloneNode(true);
 
+  const likeButton = placeElement.querySelector('.place__like-btn');
+  const deleteButton = placeElement.querySelector('.place__del-btn');
+  const OpenimgButton = placeElement.querySelector('.place__image');
+  
   placeElement.querySelector('.place__image').src = item.link;
   placeElement.querySelector('.place__image').alt = item.name;
   placeElement.querySelector('.place__title').textContent = item.name;
+  
+  findLikeButton(likeButton);
+  findDeleteButton(deleteButton, placeElement);
+  findImgButton(item, OpenimgButton);
 
   return placeElement;
 };
 
-function findImgButton(item) {
-  const OpenimgButton = document.querySelector('.place__image');
+function findImgButton(item, OpenimgButton) {
   OpenimgButton.addEventListener('click', function() {
-    document.querySelector('.popup__image').src = item.link;
-    document.querySelector('.popup__image').alt = item.name;
-    document.querySelector('.popup__subtitle').textContent = item.name;
-    imgPopup.classList.add('popup_opened');
+    popupImage.src = item.link;
+    popupImage.alt = item.name;
+    popupSubtitle.textContent = item.name;
+    openPopup(imgPopup); 
   });
 };
 
-function findLikeButton() {
-  const likeButton = document.querySelector('.place__like-btn');
+function findLikeButton(likeButton) {
   likeButton.addEventListener('click', function() {
     likeButton.classList.toggle('place__like-btn_active');
   });
 };
 
-function findDeleteButton() {
-  const deleteButton = document.querySelector('.place__del-btn');
+function findDeleteButton(deleteButton, placeElement) {
   deleteButton.addEventListener('click', function() {
-    const listItem = deleteButton.closest('.place');
-    listItem.remove();
+    placeElement.remove();
   });
 };
 
