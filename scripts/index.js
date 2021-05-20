@@ -1,6 +1,9 @@
+const placeTemplate = document.querySelector('#place-template').content;
+
 const openEditPopupButton = document.querySelector('.profile__edit-btn');
 const editPopup = document.querySelector('#editPopup');
 const closeEditPopupButton = editPopup.querySelector('.popup__close-btn');
+const submitEditPopupButton = editPopup.querySelector('.form__submit-btn');
 
 const openAddPopupButton = document.querySelector('.profile__add-btn');
 const addPopup = document.querySelector('#addPopup');
@@ -21,35 +24,11 @@ const addNewPlace = document.forms.addNewPlace;
 const inputPlaceName = addNewPlace.inputPlaceName;
 const inputPlaceLink = addNewPlace.inputPlaceLink;
 
+inputProfileName.value = profileName.textContent;
+inputProfileSub.value = profileSub.textContent;
+
 const popupImage = document.querySelector('.popup__image');
 const popupSubtitle = document.querySelector('.popup__subtitle');
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 initialCards.forEach(addPlace);
 
@@ -58,29 +37,32 @@ function addPlace(item) {
 };
 
 function createNewPlace(item) {
-  const placeTemplate = document.querySelector('#place-template').content;
   const placeElement = placeTemplate.querySelector('.place').cloneNode(true);
-  
+
   placeElement.querySelector('.place__image').src = item.link;
   placeElement.querySelector('.place__image').alt = item.name;
   placeElement.querySelector('.place__title').textContent = item.name;
 
+  addEventForPlace(placeElement)
+
   return placeElement;
 };
 
-placeContainer.addEventListener('click', function(evt) {
-  if (evt.target.classList.contains('place__like-btn')) {
-    putLike(evt, 'place')
-  };
+function addEventForPlace(placeElement) {
+  placeElement.addEventListener('click', function(evt) {
+    if (evt.target.classList.contains('place__like-btn')) {
+      putLike(evt, 'place')
+    };
 
-  if (evt.target.classList.contains('place__image')) {
-    openImgPopup(evt);
-  };
+    if (evt.target.classList.contains('place__image')) {
+      openImgPopup(evt);
+    };
 
-  if (evt.target.classList.contains('place__del-btn')) {
-    deleteCard(evt);
-  };
+    if (evt.target.classList.contains('place__del-btn')) {
+      deleteCard(evt);
+    };
 });
+};
 
 function putLike(evt, element) {
   evt.target.classList.toggle(`${element}__like-btn_active`);
@@ -93,52 +75,45 @@ function deleteCard(evt) {
 };
 
 function closePopup(popup) {
-  popup.classList.remove('popup_opened')
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupWithEsc);
+};
+function closePopupWithEsc(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
+  if (evt.key ==='Escape') {
+    closePopup(openedPopup);
+  };
 };
 function closeEditPopup() {
   closePopup(editPopup);
-};
-function closeEditPopupWithEsc(evt) {
-  if (evt.keyCode === 27) {
-    closeEditPopup();
-  }
-  document.removeEventListener('keydown', closeEditPopupWithEsc);
+  hideInputError(profileEdit, inputProfileName, classes);
+  hideInputError(profileEdit, inputProfileSub, classes);
+  submitEditPopupButton.classList.remove(`${classes.inactiveButtonClass}`);
+  submitEditPopupButton.disabled = false;
 };
 function closeAddPopup() {
   closePopup(addPopup);
   addNewPlace.reset();
-};
-function closeAddPopupWithEsc(evt) {
-  if (evt.keyCode === 27) {
-    closeAddPopup();
-  }
-  document.removeEventListener('keydown', closeAddPopupWithEsc);
+  hideInputError(addNewPlace, inputPlaceName, classes);
+  hideInputError(addNewPlace, inputPlaceLink, classes);
 };
 function closeImgPopup() {
   closePopup(imgPopup);
 };
-function closeImgPopupWithEsc(evt) {
-  if (evt.keyCode === 27) {
-    closeImgPopup();
-  }
-  document.removeEventListener('keydown', closeImgPopupWithEsc);
-};
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupWithEsc);
 };
 function openEditPopup() {
-  document.addEventListener('keydown', closeEditPopupWithEsc);
   inputProfileName.value = profileName.textContent;
   inputProfileSub.value = profileSub.textContent;
   openPopup(editPopup);
 };
 function openAddPopup() {
-  document.addEventListener('keydown', closeAddPopupWithEsc);
   openPopup(addPopup);
 };
 function openImgPopup(evt) {
-  document.addEventListener('keydown', closeImgPopupWithEsc);
   popupImage.src = evt.target.src;
   popupImage.alt = evt.target.alt;
   popupSubtitle.textContent = evt.target.alt;
@@ -155,14 +130,13 @@ function saveAddForm(evt) {
   evt.preventDefault();
 
   initialCards.push({name:`${inputPlaceName.value}`, link:`${inputPlaceLink.value}`});
-  addNewPlace.reset();
 
   addPlace(initialCards[initialCards.length - 1]);
   closeAddPopup();
 };
 
 closeImgPopupButton.addEventListener('click', closeImgPopup);
-imgPopup.addEventListener('click', (evt) => {
+imgPopup.addEventListener('mousedown', (evt) => {
   if (evt.target.id === 'imgPopup') {
     closeImgPopup();
   };
@@ -170,7 +144,7 @@ imgPopup.addEventListener('click', (evt) => {
 
 openAddPopupButton.addEventListener('click', openAddPopup);
 closeAddPopupButton.addEventListener('click', closeAddPopup);
-addPopup.addEventListener('click', (evt) => {
+addPopup.addEventListener('mousedown', (evt) => {
   if (evt.target.id === 'addPopup') {
     closeAddPopup();
   }
@@ -179,7 +153,7 @@ addNewPlace.addEventListener('submit', saveAddForm);
 
 openEditPopupButton.addEventListener('click', openEditPopup);
 closeEditPopupButton.addEventListener('click', closeEditPopup);
-editPopup.addEventListener('click', (evt) => {
+editPopup.addEventListener('mousedown', (evt) => {
   if (evt.target.id === 'editPopup') {
     closeEditPopup();
   }

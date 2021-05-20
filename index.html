@@ -33,17 +33,17 @@
 
   <div id="editPopup" class="popup">
     <div class="popup__container">
-      <form class="form" name="profileEdit">
+      <form class="form" name="profileEdit" novalidate>
         <h2 class="form__title">Редактировать профиль</h2>
         <div class="form__input">
-          <label class="form__field">
+          <div class="form__field">
             <input type="text" value="" name="inputProfileName" class="form__text" id="name-input" required minlength="2" maxlength="40">
             <span class="form__text-error name-input-error"></span>
-          </label>
-          <label class="form__field">
+          </div>
+          <div class="form__field">
             <input type="text" value="" name="inputProfileSub" class="form__text" id="subname-input" required minlength="2" maxlength="200">
             <span class="form__text-error subname-input-error"></span>
-          </label>
+          </div>
         </div>
         <button name="saveFormButton" type="submit" class="form__submit-btn">Сохранить</button>
       </form>
@@ -53,17 +53,17 @@
 
   <div id="addPopup" class="popup">
     <div class="popup__container">
-      <form class="form" name="addNewPlace">
+      <form class="form" name="addNewPlace" novalidate>
         <h2 class="form__title">Новое место</h2>
         <div class="form__input">
-          <label class="form__field">
+          <div class="form__field">
             <input placeholder="Название" type="text" value="" name="inputPlaceName" class="form__text" id="cardname-input" required minlength="2" maxlength="30">
             <span class="form__text-error cardname-input-error"></span>
-          </label>
-          <label class="form__field">
+          </div>
+          <div class="form__field">
             <input placeholder="Ссылка на картинку" type="url" value="" name="inputPlaceLink" class="form__text" id="url-input" required>
             <span class="form__text-error url-input-error"></span>
-          </label>
+          </div>
         </div>
         <button name="saveFormButton" type="submit" class="form__submit-btn ">Сохранить</button>
       </form>
@@ -90,6 +90,7 @@
     </div>
   </template>
 
+  <script src="./scripts/initial-сards.js"></script>
   <script src="./scripts/index.js"></script>
   <script src="./scripts/validate.js"></script>
 </body>
