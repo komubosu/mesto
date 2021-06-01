@@ -18,6 +18,7 @@
 * querySelector
 * addEventListener
 * Валидация форм
+* классы в JS
 
 **Сайт на GitHub Pages**
 
