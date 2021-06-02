@@ -2,20 +2,18 @@ import {initialCards} from './initial-сards.js';
 import {Card} from './Card.js';
 import {FormValidator} from './FormValidator.js';
 
-const buttonOpenEditPopup = document.querySelector('.profile__edit-btn');
-const editPopup = document.querySelector('#editPopup');
-const buttonCloseEditPopup = editPopup.querySelector('.popup__close-btn');
-const buttonSubmitEditPopup = editPopup.querySelector('.form__submit-btn');
+const buttonOpenPopupEditProfile = document.querySelector('.profile__edit-btn');
+const popupEditProfile = document.querySelector('#popupEditProfile');
+const buttonClosePopupEditProfile = popupEditProfile.querySelector('.popup__close-btn');
 
-const buttonOpenAddPopup = document.querySelector('.profile__add-btn');
-const addPopup = document.querySelector('#addPopup');
-const buttonCloseAddPopup = addPopup.querySelector('.popup__close-btn');
-const buttonSubmitAddPopup = addPopup.querySelector('.form__submit-btn');
+const buttonOpenPopupAddCard = document.querySelector('.profile__add-btn');
+const popupAddCard = document.querySelector('#popupAddCard');
+const buttonClosePopupAddCard = popupAddCard.querySelector('.popup__close-btn');
 
 const placeContainer = document.querySelector('.places');
 
-const imgPopup = document.querySelector('#imgPopup');
-const buttonCloseImgPopup = imgPopup.querySelector('.popup__close-btn');
+export const popupCardImg = document.querySelector('#popupCardImg');
+const buttonClosePopupCardImg = popupCardImg.querySelector('.popup__close-btn');
 
 const profileName = document.querySelector('.profile__title');
 const profileSub = document.querySelector('.profile__subtitle');
@@ -73,37 +71,37 @@ function closePopupWithEsc(evt) {
     closePopup(openedPopup);
   };
 };
-function closeEditPopup() {
-  closePopup(editPopup);
-  validatorFormProfileEdit.resetValidation();
+function closePopupEditProfile() {
+  closePopup(popupEditProfile);
 };
-function closeAddPopup() {
-  closePopup(addPopup);
-  fromNewPlace.reset();
-  validatorFormNewPlace.resetValidation();
+function closePopupAddCard() {
+  closePopup(popupAddCard);
 };
-function closeImgPopup() {
-  closePopup(imgPopup);
+function closePopupCardImg() {
+  closePopup(popupCardImg);
 };
 
 export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupWithEsc);
 };
-function openEditPopup() {
+function openPopupEditProfile() {
   inputProfileName.value = profileName.textContent;
   inputProfileSub.value = profileSub.textContent;
-  openPopup(editPopup);
+  validatorFormProfileEdit.resetValidation();
+  openPopup(popupEditProfile);
 };
-function openAddPopup() {
-  openPopup(addPopup);
+function openPopupAddCard() {
+  fromNewPlace.reset();
+  validatorFormNewPlace.resetValidation();
+  openPopup(popupAddCard);
 };
 
 function saveEditForm(evt) {
   evt.preventDefault();
   profileName.textContent = inputProfileName.value;
   profileSub.textContent = inputProfileSub.value;
-  closeEditPopup()
+  closePopupEditProfile()
 };
 function saveAddForm(evt) {
   evt.preventDefault();
@@ -113,30 +111,30 @@ function saveAddForm(evt) {
   }
 
   addNewPlace(cardInfo);
-  closeAddPopup();
+  closePopupAddCard();
 };
 
-buttonCloseImgPopup.addEventListener('click', closeImgPopup);
-imgPopup.addEventListener('mousedown', (evt) => {
+buttonClosePopupCardImg.addEventListener('click', closePopupCardImg);
+popupCardImg.addEventListener('mousedown', (evt) => {
   if (evt.target === evt.currentTarget) {
-    closeImgPopup();
+    closePopupCardImg();
   };
 });
 
-buttonOpenAddPopup.addEventListener('click', openAddPopup);
-buttonCloseAddPopup.addEventListener('click', closeAddPopup);
-addPopup.addEventListener('mousedown', (evt) => {
+buttonOpenPopupAddCard.addEventListener('click', openPopupAddCard);
+buttonClosePopupAddCard.addEventListener('click', closePopupAddCard);
+popupAddCard.addEventListener('mousedown', (evt) => {
   if (evt.target === evt.currentTarget) {
-    closeAddPopup();
+    closePopupAddCard();
   }
 });
 fromNewPlace.addEventListener('submit', saveAddForm);
 
-buttonOpenEditPopup.addEventListener('click', openEditPopup);
-buttonCloseEditPopup.addEventListener('click', closeEditPopup);
-editPopup.addEventListener('mousedown', (evt) => {
+buttonOpenPopupEditProfile.addEventListener('click', openPopupEditProfile);
+buttonClosePopupEditProfile.addEventListener('click', closePopupEditProfile);
+popupEditProfile.addEventListener('mousedown', (evt) => {
   if (evt.target === evt.currentTarget) {
-    closeEditPopup();
+    closePopupEditProfile();
   }
 });
 formProfileEdit.addEventListener('submit', saveEditForm);

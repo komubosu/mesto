@@ -1,4 +1,4 @@
-import {popupImage, popupSubtitle, openPopup} from './index.js';
+import {popupCardImg, popupImage, popupSubtitle, openPopup} from './index.js';
 export class Card {
   constructor(data, cardSelector) {
     this._cardSelector = cardSelector;
@@ -22,7 +22,7 @@ export class Card {
     popupImage.src = this._buttonOpenPopup.src;
     popupImage.alt = this._buttonOpenPopup.alt;
     popupSubtitle.textContent = this._buttonOpenPopup.alt;
-    openPopup(imgPopup);
+    openPopup(popupCardImg);
   };
 
   _handleDeletPlace() {
