@@ -20,6 +20,6 @@
 * Валидация форм
 * классы в JS
 
-**Сайт на GitHub Pages**
+**Проект на GitHub Pages**
 
 * [Ссылка на проект в GitHub Pages](https://komubosu.github.io/mesto/)
