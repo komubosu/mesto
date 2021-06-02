@@ -19,7 +19,7 @@
 * addEventListener
 * Валидация форм
 * классы в JS
-
-**Проект на GitHub Pages**
+* 
+**Сайт на GitHub Pages**
 
 * [Ссылка на проект в GitHub Pages](https://komubosu.github.io/mesto/)
