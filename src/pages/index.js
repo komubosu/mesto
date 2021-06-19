@@ -14,6 +14,15 @@ import {
   fromNewCard,
 } from '../utils/constants.js';
 
+function createCard({name, link}, cardSelector) {
+  const card = new Card({
+    handleCardClick: (card) => {
+      popupWithImage.open(card);
+    }
+  }, {name, link}, cardSelector);
+  return card.generateCard();
+};
+
 const validatorEditProfileForm = new FormValidator(fromClasses, formProfileEdit);
 validatorEditProfileForm.enableValidation();
 
@@ -29,9 +38,10 @@ const userInfo = new UserInfo({
 });
 
 const popupEditProfileForm = new PopupWithForm({
-  submitForm: evt => {
+  handleSubmitForm: evt => {
     evt.preventDefault();
-    userInfo.setUserInfo(popupEditProfileForm._getInputValues());
+
+    userInfo.setUserInfo(popupEditProfileForm.getInputValues());
 
     popupEditProfileForm.close();
   }
@@ -44,21 +54,13 @@ buttonOpenPopupEditProfile.addEventListener('click', () => {
 });
 
 const popupCreateCardForm = new PopupWithForm({
-  submitForm: evt => {
+  handleSubmitForm: evt => {
     evt.preventDefault();
 
-    const createCard = new Section({
-      items: [popupCreateCardForm._getInputValues()],
-      renderer: item => {
-        const card = new Card({
-          handleCardClick: (card) => {
-            popupWithImage.open(card);
-          }
-        }, {name: item[0], link: item[1]}, '#card-template');
-        createCard.addItem(card.generateCard());
-      }
-    }, '.cards');
-    createCard.renderItems();
+    cardList.addItem(createCard({
+      name: popupCreateCardForm.getInputValues().inputCardName,
+      link: popupCreateCardForm.getInputValues().inputCardLink,
+    }, '#card-template' ))
 
     popupCreateCardForm.close();
   }
@@ -72,12 +74,7 @@ buttonOpenPopupCreateCard.addEventListener('click', () => {
 const cardList = new Section({
   items: initialCards,
   renderer: item => {
-    const card = new Card({
-      handleCardClick: (card) => {
-        popupWithImage.open(card);
-      }
-    }, item, '#card-template');
-    cardList.addItem(card.generateCard());
+    cardList.addItem(createCard(item, '#card-template'));
   }
 }, '.cards');
 cardList.renderItems();
