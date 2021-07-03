@@ -1,34 +1,16 @@
 export const buttonOpenPopupEditProfile = document.querySelector('.profile__edit-btn');
+export const buttonOpenPopupEditProfileAvatar = document.querySelector('.profile__edit-avatar-btn');
 export const buttonOpenPopupCreateCard = document.querySelector('.profile__add-btn');
 export const formProfileEdit = document.forms.formProfileEdit;
+export const buttonSubmitFormProfileEdit = formProfileEdit.saveFormButton
+export const formProfileAvatarEdit = document.forms.formProfileAvatarEdit;
+export const buttonSubmitFormProfileAvatarEdit = formProfileAvatarEdit.saveFormButton
 export const fromNewCard = document.forms.fromNewCard;
+export const buttonSubmitFromNewCard = fromNewCard.saveFormButton
 
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+//было бы круто в будущем реализовать ввод своих данных при входе на сайт в уже открытый попап
+export const userToken = 'b8ea5ec6-acae-49b3-8816-991c5350bb3b';
+export const userId = 'cohort-25';
 
 export const fromClasses = {
   inputSelector: '.form__text',

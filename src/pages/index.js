@@ -2,48 +2,78 @@ import './index.css';
 import Section from '../components/Section.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
-import PopupWithImage from '../components/PopupWithImage';
-import PopupWithForm from '../components/PopupWithForm';
-import UserInfo from '../components/UserInfo';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 import {
-  initialCards,
   fromClasses,
   buttonOpenPopupEditProfile,
+  buttonOpenPopupEditProfileAvatar,
   buttonOpenPopupCreateCard,
   formProfileEdit,
+  buttonSubmitFormProfileEdit,
+  formProfileAvatarEdit,
+  buttonSubmitFormProfileAvatarEdit,
   fromNewCard,
+  buttonSubmitFromNewCard,
+  userId,
+  userToken,
 } from '../utils/constants.js';
 
-function createCard({name, link}, cardSelector) {
+
+function createCard({name, link, likes, owner, _id}, cardSelector) {
   const card = new Card({
     handleCardClick: (card) => {
       popupWithImage.open(card);
+    },
+    handleDeleteCard: (card) => {
+      popupDeleteCard.updateHandleSubmitForm({
+        handleSubmitForm: (evt) => {
+          evt.preventDefault();
+          api.deleteCard(card, popupDeleteCard);
+        }
+      })
+      popupDeleteCard.open();
     }
-  }, {name, link}, cardSelector);
-  return card.generateCard();
+  }, {name, link, likes, owner, _id}, cardSelector);
+  return card.generateCard(api);
 };
+
 
 const validatorEditProfileForm = new FormValidator(fromClasses, formProfileEdit);
 validatorEditProfileForm.enableValidation();
 
+
+const validatorEditProfileAvatarForm = new FormValidator(fromClasses, formProfileAvatarEdit);
+validatorEditProfileAvatarForm.enableValidation();
+
+
 const validatorCreateCardForm = new FormValidator(fromClasses, fromNewCard);
 validatorCreateCardForm.enableValidation();
+
 
 const popupWithImage = new PopupWithImage('#popupCardImg');
 popupWithImage.setEventListeners();
 
+
 const userInfo = new UserInfo({
   nameSelector: '.profile__title',
   aboutSelector: '.profile__subtitle',
+  avatarSelector: '.profile__pic',
+  userId: userId,
+  userToken: userToken,
 });
+
+
+const cards = new Section({}, '.cards');
+
 
 const popupEditProfileForm = new PopupWithForm({
   handleSubmitForm: evt => {
     evt.preventDefault();
-
-    userInfo.setUserInfo(popupEditProfileForm.getInputValues());
-
-    popupEditProfileForm.close();
+    buttonSubmitFormProfileEdit.textContent = 'Сохранение...';
+    api.setNewUserInfo(popupEditProfileForm, buttonSubmitFormProfileEdit, userInfo);
   }
 }, '#popupEditProfile');
 popupEditProfileForm.setEventListeners();
@@ -53,16 +83,26 @@ buttonOpenPopupEditProfile.addEventListener('click', () => {
   popupEditProfileForm.open();
 });
 
+
+const popupEditProfileAvatarForm = new PopupWithForm({
+  handleSubmitForm: evt => {
+    evt.preventDefault();
+    buttonSubmitFormProfileAvatarEdit.textContent = 'Сохранение...';
+    api.setNewAvatar(popupEditProfileAvatarForm, buttonSubmitFormProfileAvatarEdit, userInfo);
+  }
+}, '#popupEditProfileAvatar');
+popupEditProfileAvatarForm.setEventListeners();
+buttonOpenPopupEditProfileAvatar.addEventListener('click', () => {
+  validatorEditProfileAvatarForm.resetValidation();
+  popupEditProfileAvatarForm.open();
+});
+
+
 const popupCreateCardForm = new PopupWithForm({
   handleSubmitForm: evt => {
     evt.preventDefault();
-
-    cardList.addItem(createCard({
-      name: popupCreateCardForm.getInputValues().inputCardName,
-      link: popupCreateCardForm.getInputValues().inputCardLink,
-    }, '#card-template' ))
-
-    popupCreateCardForm.close();
+    buttonSubmitFromNewCard.textContent = 'Сохранение...';
+    api.uploadNewCard(popupCreateCardForm, cards, createCard, buttonSubmitFromNewCard);
   }
 }, '#popupCreateCard');
 popupCreateCardForm.setEventListeners();
@@ -71,10 +111,17 @@ buttonOpenPopupCreateCard.addEventListener('click', () => {
   popupCreateCardForm.open();
 });
 
-const cardList = new Section({
-  items: initialCards,
-  renderer: item => {
-    cardList.addItem(createCard(item, '#card-template'));
+
+const popupDeleteCard = new PopupWithForm({}, '#popupDeleteCard');
+popupDeleteCard.setEventListeners();
+
+
+const api = new Api({
+  baseUrl: `https://mesto.nomoreparties.co/v1/${userId}`,
+  headers: {
+    authorization: `${userToken}`,
+    'Content-Type': 'application/json'
   }
-}, '.cards');
-cardList.renderItems();
+});
+api.getInitialCards(cards, createCard );
+api.getUserInfo(userInfo);
