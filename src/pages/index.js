@@ -22,7 +22,7 @@ import {
 } from '../utils/constants.js';
 
 
-function createCard({name, link, likes, owner, _id}, cardSelector) {
+function createCard(cardInfo, userData, cardSelector) {
   const card = new Card({
     handleCardClick: (card) => {
       popupWithImage.open(card);
@@ -31,13 +31,28 @@ function createCard({name, link, likes, owner, _id}, cardSelector) {
       popupDeleteCard.updateHandleSubmitForm({
         handleSubmitForm: (evt) => {
           evt.preventDefault();
-          api.deleteCard(card, popupDeleteCard);
+          api.deleteCard(card)
+            .then(() => card.handleDeleteCard())
+            .then(() => popupDeleteCard.close())
+            .catch(err => console.log(err))
         }
       })
       popupDeleteCard.open();
-    }
-  }, {name, link, likes, owner, _id}, cardSelector);
-  return card.generateCard(api);
+    },
+    handleRemoveLike: () => {
+      api.handleRemoveLike(card)
+        .then(result => {card.updateLikesValue(result.likes.length)})
+        .then(() => card.handleLike())
+        .catch(err => console.log(err))
+    },
+    handlePutLike: () => {
+    api.handlePutLike(card)
+      .then(result => {card.updateLikesValue(result.likes.length)})
+      .then(() => card.handleLike())
+      .catch(err => console.log(err))
+    },
+  }, cardInfo, userData, cardSelector);
+  return card.generateCard();
 };
 
 
@@ -73,7 +88,11 @@ const popupEditProfileForm = new PopupWithForm({
   handleSubmitForm: evt => {
     evt.preventDefault();
     buttonSubmitFormProfileEdit.textContent = 'Сохранение...';
-    api.setNewUserInfo(popupEditProfileForm, buttonSubmitFormProfileEdit, userInfo);
+    api.setNewUserInfo(popupEditProfileForm)
+      .then(result => {userInfo.setUserInfo(result)})
+      .then(() => popupEditProfileForm.close())
+      .catch(err => console.log(err))
+      .finally(() => buttonSubmitFormProfileEdit.textContent = 'Сохранить')
   }
 }, '#popupEditProfile');
 popupEditProfileForm.setEventListeners();
@@ -88,7 +107,11 @@ const popupEditProfileAvatarForm = new PopupWithForm({
   handleSubmitForm: evt => {
     evt.preventDefault();
     buttonSubmitFormProfileAvatarEdit.textContent = 'Сохранение...';
-    api.setNewAvatar(popupEditProfileAvatarForm, buttonSubmitFormProfileAvatarEdit, userInfo);
+    api.setNewAvatar(popupEditProfileAvatarForm)
+      .then(result => {userInfo.setUserInfo(result)})
+      .then(() => popupEditProfileAvatarForm.close())
+      .catch(err => console.log(err))
+      .finally(() => buttonSubmitFormProfileAvatarEdit.textContent = 'Сохранить')
   }
 }, '#popupEditProfileAvatar');
 popupEditProfileAvatarForm.setEventListeners();
@@ -101,8 +124,13 @@ buttonOpenPopupEditProfileAvatar.addEventListener('click', () => {
 const popupCreateCardForm = new PopupWithForm({
   handleSubmitForm: evt => {
     evt.preventDefault();
+
     buttonSubmitFromNewCard.textContent = 'Сохранение...';
-    api.uploadNewCard(popupCreateCardForm, cards, createCard, buttonSubmitFromNewCard);
+    api.uploadNewCard(popupCreateCardForm)
+      .then(result => {cards.addItemPrepend(createCard(result, result.owner, '#card-template' ))})
+      .then(() => popupCreateCardForm.close())
+      .catch(err => console.log(err))
+      .finally(() => buttonSubmitFromNewCard.textContent = 'Сохранить')
   }
 }, '#popupCreateCard');
 popupCreateCardForm.setEventListeners();
@@ -123,5 +151,11 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 });
-api.getInitialCards(cards, createCard );
-api.getUserInfo(userInfo);
+
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([ userData, initialCards ]) => {
+    userInfo.setUserInfo(userData)
+    initialCards.forEach(cardInfo => cards.addItemAppend(createCard(cardInfo, userData, '#card-template')))
+  })
+  .catch(err => console.log(err));

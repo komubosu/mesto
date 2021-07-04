@@ -9,8 +9,8 @@ export const fromNewCard = document.forms.fromNewCard;
 export const buttonSubmitFromNewCard = fromNewCard.saveFormButton
 
 //было бы круто в будущем реализовать ввод своих данных при входе на сайт в уже открытый попап
-export const userToken = 'b8ea5ec6-acae-49b3-8816-991c5350bb3b';
-export const userId = 'cohort-25';
+export let userToken = 'b8ea5ec6-acae-49b3-8816-991c5350bb3b';
+export let userId = 'cohort-25';
 
 export const fromClasses = {
   inputSelector: '.form__text',
