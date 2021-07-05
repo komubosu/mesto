@@ -32,8 +32,10 @@ function createCard(cardInfo, userData, cardSelector) {
         handleSubmitForm: (evt) => {
           evt.preventDefault();
           api.deleteCard(card)
-            .then(() => card.handleDeleteCard())
-            .then(() => popupDeleteCard.close())
+            .then(() => {
+              card.handleDeleteCard()
+              popupDeleteCard.close()
+            })
             .catch(err => console.log(err))
         }
       })
@@ -41,14 +43,18 @@ function createCard(cardInfo, userData, cardSelector) {
     },
     handleRemoveLike: () => {
       api.handleRemoveLike(card)
-        .then(result => {card.updateLikesValue(result.likes.length)})
-        .then(() => card.handleLike())
+        .then(result => {
+          card.updateLikesValue(result.likes.length)
+          card.handleLike()
+        })
         .catch(err => console.log(err))
     },
     handlePutLike: () => {
     api.handlePutLike(card)
-      .then(result => {card.updateLikesValue(result.likes.length)})
-      .then(() => card.handleLike())
+      .then(result => {
+        card.updateLikesValue(result.likes.length)
+        card.handleLike()
+      })
       .catch(err => console.log(err))
     },
   }, cardInfo, userData, cardSelector);
