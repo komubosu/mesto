@@ -22,4 +22,4 @@
 
 **Проект на GitHub Pages**
 
-[Mesto by komubosu](https://komubosu.github.io/mesto/)
+* [Mesto by komubosu](https://komubosu.github.io/mesto/)
