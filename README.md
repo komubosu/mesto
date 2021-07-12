@@ -3,6 +3,7 @@
 ### Обзор
 * Описание проекта
 * Что за технологии используются
+* GitHub Pages
 
 **Описание проекта**
 
@@ -18,3 +19,7 @@
 * Классы в JS
 * библиотеки npm
 * api
+
+**Проект на GitHub Pages**
+
+[Mesto by komubosu](https://komubosu.github.io/mesto/)
