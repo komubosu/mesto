@@ -158,10 +158,10 @@ const api = new Api({
   }
 });
 
-
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([ userData, initialCards ]) => {
-    userInfo.setUserInfo(userData)
-    initialCards.forEach(cardInfo => cards.addItemAppend(createCard(cardInfo, userData, '#card-template')))
+    userInfo.setUserInfo(userData);
+    console.log(initialCards);
+    initialCards.forEach(cardInfo => cards.addItemAppend(createCard(cardInfo, userData, '#card-template')));
   })
   .catch(err => console.log(err));
